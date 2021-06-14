@@ -1,65 +1,60 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from "react";
 import './App.css';
-import {v1} from 'uuid';
-import {Todolist} from "./TodoList";
+import { Display } from "./components/Display";
+import { Button } from "./components/Button";
 
-
-export type FilterValuesType = "all" | "active" | "completed";
 
 function App() {
+    const [counter, setCounter] = useState<number>(0);
 
-    let [tasks, setTasks] = useState([
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false},
-        {id: v1(), title: "Rest API", isDone: false},
-        {id: v1(), title: "GraphQL", isDone: false},
-    ]);
+    const setToLocalStorage = (value: number) => {
+        localStorage.setItem('counter', JSON.stringify(value));
+    };
 
-    function removeTask(id: string) {
-        let filteredTasks = tasks.filter(t => t.id !== id);
-        setTasks(filteredTasks);
-    }
+    const getlocalStorage = () => {
+        const stringValue = localStorage.getItem('counter');
 
-    function addTask(title: string) {
-        let task = {id: v1(), title: title, isDone: false};
-        let newTasks = [task, ...tasks];
-        setTasks(newTasks);
-    }
+        stringValue && setCounter(JSON.parse(stringValue))
+    };
 
-    function changeStatusTask(id: string, isDone: boolean) {
-        let task = tasks.find(t => t.id === id);
-        if (task) {
-            task.isDone = isDone
-            setTasks([...tasks]);
+    const increaseCounter = () => {
+        if (counter < 5) {
+            setCounter(counter + 1)
         }
-    }
+    };
 
-    let [filter, setFilter] = useState<FilterValuesType>("all");
+    const resetCounter = () => {
+        setCounter(0);
+    };
 
-    let tasksForTodolist = tasks;
+    const buttons = [
+        {name: "inc", callback: increaseCounter},
+        {name: "reset", callback: resetCounter},
+    ];
 
-    if (filter === "active") {
-        tasksForTodolist = tasks.filter(t => !t.isDone);
-    }
-    if (filter === "completed") {
-        tasksForTodolist = tasks.filter(t => t.isDone);
-    }
+    useEffect(() => {
+        getlocalStorage();
+    }, []);
 
-    function changeFilter(value: FilterValuesType) {
-        setFilter(value);
-    }
+    useEffect(() => {
+        setToLocalStorage(counter);
+    }, [counter]);
 
     return (
         <div className="App">
-            <Todolist title="What to learn"
-                      tasks={tasksForTodolist}
-                      removeTask={removeTask}
-                      changeFilter={changeFilter}
-                      addTask={addTask}
-                      statusChangeTask={changeStatusTask}
-                      filter={filter}
-            />
+            <Display value={counter} />
+
+            <div className="buttons">
+                {
+                    buttons.map(button =>
+                        <Button
+                            key={button.name}
+                            name={button.name}
+                            callback={button.callback}
+                            counter={counter}
+                        />)
+                }
+            </div>
         </div>
     );
 }
