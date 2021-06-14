@@ -3,27 +3,27 @@
     display: flex;
 }
 
+* {
+  outline: none;
+}
+
 .App > div {
     margin-right: 50px;
 }
 
-.active {
-    background-color: indianred;
-}
-
-.allTasks {
-    color: forestgreen;
-}
-
-.activeTasks {
-    color: indianred;
-}
-
-.completedTasks {
-    text-decoration: line-through;
-}
-
 .error {
-    outline: none;
-    border: 2px solid red;
+  border: red 1px solid;
+}
+
+.error-message {
+  color: red;
+}
+
+.activeFilter {
+  background-color: aquamarine;
+}
+
+.is-done {
+  text-decoration: line-through;
+  opacity: 0.5;
 }
