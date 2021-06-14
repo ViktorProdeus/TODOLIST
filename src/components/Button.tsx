@@ -1,20 +1,32 @@
 import React from "react";
-import {FilterValuesType} from "../App";
-import s from './Button.module.css'
 
-type ButtonType = {
-    value: FilterValuesType
-    callBack: () => void
-    filter?: FilterValuesType
+type PropsType = {
+    counter: number
+    name: string
+    id: number
+    isDisable: boolean
+    callback: () => void
 }
+export const Button = (props: PropsType) => {
+    let {counter, name, id, isDisable, callback} = props
+    if (id === 1 && counter === 5) {
+        isDisable = !isDisable
+    }
 
-export const Button: React.FC<ButtonType> = (props) => {
+    if (id === 2 && counter > 0) {
+        isDisable = !isDisable
+    }
+
     return (
-        <>
-            <button
-                className={props.filter === props.value ? s.activeFilter : ''}
-                onClick={props.callBack}>{props.value}</button>
-        </>
+        <button
+            key={id}
+            className={name}
+            onClick={() => callback()}
+            disabled={isDisable}
+        >
+            {name}
+        </button>
 
     )
 }
+
