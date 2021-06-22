@@ -2,14 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
 
-test('first button name increase', () => {
+test('renders learn react link', () => {
   const { getByText } = render(<App />);
-  const buttonName = getByText(/inc/i);
-  expect(buttonName).toBeInTheDocument();
-});
-
-test('second button name reset', () => {
-  const { getByText } = render(<App />);
-  const buttonName = getByText(/reset/i);
-  expect(buttonName).toBeInTheDocument();
+  const linkElement = getByText(/What to learn/i);
+  expect(linkElement).toBeInTheDocument();
 });
