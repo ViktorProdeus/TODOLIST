@@ -12,6 +12,7 @@ type TodolistType = {
 }
 
 type TasksStateType = {
+
     [key: string]: TaskType[]
 }
 
@@ -117,8 +118,59 @@ function App() {
 
         setTodolists([newTodolist, ...todolists]);
         setTasks({...tasks, [newTodolistID]: []})
+
     }
 
+    function changeTaskStatus(taskId: string, isDone: boolean, todoListID: string) {
+        tasks[todoListID] = tasks[todoListID].map(t => {
+            if (t.id === taskId) {
+                return {...t, isDone: isDone};
+            }
+            return t
+        });
+        setTasks({...tasks});
+    };
+
+
+    function changeTodolistFilter(value: FilterValuesType, todoListID: string) {
+        setTodoLists(todoLists.map(tl => tl.id === todoListID ? {...tl, filter: value} : tl));
+    }
+
+    function removeTodoList(todoListID: string) {
+        setTodoLists(todoLists.filter(tl => tl.id !== todoListID));
+        delete tasks[todoListID];
+    }
+
+
+    const todoListsComponents = todoLists.map(tl => {
+        let tasksForTodolist = tasks[tl.id];
+
+        if (tl.filter === "active") {
+            tasksForTodolist = tasks[tl.id].filter(t => t.isDone === false);
+        }
+
+        if (tl.filter === "completed") {
+            tasksForTodolist = tasks[tl.id].filter(t => t.isDone === true);
+        }
+
+        return (
+            <Todolist
+                key={tl.id}
+                title={tl.title}
+                todoListID={tl.id}
+                tasks={tasksForTodolist}
+                removeTask={removeTask}
+                changeTodolistFilter={changeTodolistFilter}
+                addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
+                removeTodoList={removeTodoList}
+                filter={tl.filter}
+            />
+        );
+    });
+
+
+// GUI:
     return (
         <div className="App">
             <AddItemForm addItem={addTodolist}/>
@@ -155,7 +207,6 @@ function App() {
 
                 })
             }
-
         </div>
     );
 }
