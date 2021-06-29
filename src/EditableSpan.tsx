@@ -15,8 +15,9 @@ export function EditableSpan(props: EditableSpanType) {
     };
     const activateViewMode = () => {
         setEditMode(false);
-        if(title) {
-            props.onChange(title);
+        const trimTitle = title.trim()
+        if(trimTitle) {
+            props.onChange(trimTitle);
         } else {
             props.onChange(props.title);
         }

@@ -150,8 +150,6 @@ function App() {
                             changeTodolistTitle={changeTodolistTitle}
                         />
                     )
-
-
                 })
             }
 
