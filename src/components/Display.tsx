@@ -1,15 +1,19 @@
 import React from "react";
+import {DisplayValue} from "./DisplayValue";
+import {DisplaySettings} from "./DisplaySettings";
 
 type PropsType = {
-    value: number
+    counter?: boolean
+    settings?: boolean
+    value?: number
 }
 
 export const Display = (props: PropsType) => {
-    const isMaxValueChangeClass = props.value === 5 ? 'maxValue': ''
 
     return (
         <div className={'display'}>
-            <span className={isMaxValueChangeClass}>{props.value}</span>
+            {props.counter && <DisplayValue value={props.value}/>}
+            {props.settings && <DisplaySettings/>}
         </div>
     )
 }

@@ -19,12 +19,21 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <Display value={counter}/>
+        <div className={'wrapper'}>
+            <div className="block block--settings">
+                <Display settings />
 
-            <div className="buttons">
-                <Button id={1} name={'inc'} callback={() => increaseCounter()} isDisable={false} counter={counter}/>
-                <Button id={2} name={'reset'} callback={() => resetCounter()} isDisable={true} counter={counter}/>
+                <div className="buttons">
+                    <Button name={'set'} callback={() => {}} isDisable={false} counter={counter}/>
+                </div>
+            </div>
+            <div className="block block--counter">
+                <Display counter value={counter}/>
+
+                <div className="buttons">
+                    <Button name={'inc'} callback={() => increaseCounter()} isDisable={false} counter={counter}/>
+                    <Button name={'reset'} callback={() => resetCounter()} isDisable={true} counter={counter}/>
+                </div>
             </div>
         </div>
     );
