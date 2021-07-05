@@ -2,26 +2,33 @@ body {
     background-color: black;
 }
 
-.App {
+.wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.block {
+    flex: 0 0 100%;
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    max-width: 150px;
-    margin: 20px auto;
+    max-width: 250px;
+    margin: 30px;
     border-radius: 8px;
     border: aqua 2px solid;
 }
 
 .display {
+    padding: 10px;
     margin-bottom: 10px;
     width: 100%;
-    min-height: 60px;
+    min-height: 110px;
     background-color: aqua;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 25px;
-    border-radius: 8px;
 }
 
 .buttons {
@@ -34,12 +41,17 @@ body {
     border: aqua 2px solid;
 }
 
+.block--settings .buttons {
+    justify-content: center;
+}
+
 .buttons button {
+    padding: 5px 10px;
     width: 50%;
-    border-radius: 8px;
+    border-radius: 15px;
     border: none;
     background-color: aqua;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     margin-right: 10px;
     cursor: pointer;
@@ -57,7 +69,36 @@ body {
     cursor: not-allowed;
 }
 
+.value {
+    font-size: 35px;
+}
+
 .maxValue {
     color: red;
     font-size: 40px;
+    font-weight: 600;
+}
+
+.settings label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings span {
+    flex-shrink: 0;
+    margin-right: 10px;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+.settings input {
+    border: 2px solid black;
+    width: 50%;
+
+    text-align: center;
+}
+
+.red {
+    color: red;
 }
