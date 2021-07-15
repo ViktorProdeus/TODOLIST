@@ -6,6 +6,7 @@ import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, IconButton, Typography, Toolbar, Container, Grid, Paper} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 
+
 export type FilterValuesType = "all" | "active" | "completed";
 type TodolistType = {
     id: string
@@ -52,6 +53,7 @@ function App() {
         let todolistTasks = tasks[todolistId];
         // перезапишем в этом объекте массив для нужного тудулиста копией, добавив в начало новую таску:
         tasks[todolistId] = [task, ...todolistTasks];
+
         // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         setTasks({...tasks});
     }
@@ -121,6 +123,7 @@ function App() {
     }
 
     return (
+
         <div>
             <AppBar position="static">
                 <Toolbar style={{justifyContent: "space-between"}}>

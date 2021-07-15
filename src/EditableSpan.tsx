@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TextField} from "@material-ui/core";
 
+
 type EditableSpanType = {
     title: string
     onChange: (newValue: string) => void
@@ -19,6 +20,7 @@ export function EditableSpan(props: EditableSpanType) {
         const trimTitle = title.trim()
         if (trimTitle) {
             props.onChange(trimTitle);
+          
         } else {
             props.onChange(props.title);
         }
@@ -26,6 +28,7 @@ export function EditableSpan(props: EditableSpanType) {
 
     const onEnterPress = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
+
             activateViewMode()
         }
     }
