@@ -28,13 +28,20 @@ export type ChangeTodoListFilterAT = {
     filter: FilterValuesType,
     todolistId: string
 }
+export const todolistId1 = v1();
+export const todolistId2 = v1();
+
+const initialState: TodoListType[] = [
+    {id: todolistId1, title: "What to learn", filter: "all"},
+    {id: todolistId2, title: "What to buy", filter: "all"}
+];
 
 export type ActionsType = RemoveTodoListAT | AddTodolistAT | ChangeTodolistTitleAT | ChangeTodoListFilterAT;
 
-export const todoListsReducer = (todoLists: TodoListType[], action: ActionsType): TodoListType[] => {
+export const todoListsReducer = (state: TodoListType[] = initialState, action: ActionsType): TodoListType[] => {
     switch (action.type) {
         case REMOVE_TODOLIST:
-            return todoLists.filter(tl => tl.id !== action.todoListId);
+            return state.filter(tl => tl.id !== action.todoListId);
 
         case ADD_TODOLIST:
             const newTodolistID = action.todolistId;
@@ -45,10 +52,10 @@ export const todoListsReducer = (todoLists: TodoListType[], action: ActionsType)
                 filter: "all",
             };
 
-            return [...todoLists, newTodolist];
+            return [newTodolist, ...state];
 
         case CHANGE_TODOLIST_TITLE:
-            const todoListTitleToUpdate = todoLists
+            const todoListTitleToUpdate = state
                 .map(tl => (tl.id === action.id)
                     ? {...tl, title: action.title}
                     : tl);
@@ -56,7 +63,7 @@ export const todoListsReducer = (todoLists: TodoListType[], action: ActionsType)
             return [...todoListTitleToUpdate];
 
         case CHANGE_TODOLIST_FILTER:
-            const todoListFilterToUpdate = todoLists
+            const todoListFilterToUpdate = state
                 .map(tl => (tl.id === action.todolistId)
                     ? {...tl, filter: action.filter}
                     : tl);
@@ -64,7 +71,7 @@ export const todoListsReducer = (todoLists: TodoListType[], action: ActionsType)
             return [...todoListFilterToUpdate];
 
         default:
-            return todoLists;
+            return state;
     }
 };
 
