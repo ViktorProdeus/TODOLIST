@@ -84,6 +84,7 @@ test('status of specified task should be changed', () => {
         { id: "3", title: "tea", isDone: false }
     ]);
     expect(endState['todolistId2'][1].isDone).toBeFalsy();
+    expect(endState['todolistId2'][2].isDone).toBeFalsy();
     expect(endState['todolistId1'][1].isDone).toBeTruthy();
 });
 

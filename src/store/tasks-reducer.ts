@@ -81,24 +81,21 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
 
         case CHANGE_STATUS_TASK: {
-            const tasks = state[action.todolistId]
+            let tasks = state[action.todolistId]
                 .map(t => (t.id === action.taskId)
                 ? {...t, isDone: action.isDone}
                 : t);
 
-            return {
-                ...state,
-                [action.todolistId]: [...tasks]
-            }
+            return ({...state, [action.todolistId]: tasks}) // у Димыча ({...state})
         }
 
         case CHANGE_TITLE_TASK: {
-            const tasks = state[action.todolistId].map(t => (t.id === action.taskId) ? {...t, title: action.title} : t);
+            const tasks = state[action.todolistId]
+            .map(t => (t.id === action.taskId)
+                    ? {...t, title: action.title}
+                    : t);
 
-            return {
-                ...state,
-                [action.todolistId]: [...tasks]
-            }
+            return ({...state, [action.todolistId]: tasks}) // у Димыча ({...state})
         }
 
         case ADD_TODOLIST: {
