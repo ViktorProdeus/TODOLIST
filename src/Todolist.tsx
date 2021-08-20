@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react'
-import {FilterValuesType} from './App'
 import {AddItemForm} from './AddItemForm'
 import {EditableSpan} from './EditableSpan'
 import {Button, IconButton} from '@material-ui/core'
 import {Delete} from '@material-ui/icons'
 import {Task} from './Task'
+import {FilterValuesType} from './App';
 
 export type TaskType = {
     id: string
@@ -28,11 +28,11 @@ type PropsType = {
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
-    console.log('Todolist is called')
+    console.log('Todolist called')
 
     const {
         id,
-        title,
+        title: titleTodo,
         tasks,
     changeFilter,
         addTask,
@@ -48,16 +48,17 @@ export const Todolist = React.memo(function (props: PropsType) {
         addTask(title, id)
     }, [addTask, id])
 
-    const removeTodolistHandler = () => {
+    const removeTodolistHahdler = () => {
         removeTodolist(id)
     }
     const changeTodolistTitleHandler = useCallback((title: string) => {
         changeTodolistTitle(id, title)
     }, [id, changeTodolistTitle])
 
-    const onAllClickHandler = useCallback(() => changeFilter('all', id), [changeFilter, id])
-    const onActiveClickHandler = useCallback(() => changeFilter('active', id), [changeFilter, id])
-    const onCompletedClickHandler = useCallback(() => changeFilter('completed', id), [changeFilter, id])
+    const onAllClickHandler = useCallback(() => changeFilter('all', id), [id, changeFilter])
+    const onActiveClickHandler = useCallback(() => changeFilter('active', id), [id, changeFilter])
+    const onCompletedClickHandler = useCallback(() => changeFilter('completed', id), [id, changeFilter])
+
 
     let tasksForTodolist = tasks
 
@@ -69,22 +70,19 @@ export const Todolist = React.memo(function (props: PropsType) {
     }
 
     return <div>
-        <h3><EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
-            <IconButton onClick={removeTodolistHandler}>
+        <h3><EditableSpan value={titleTodo} onChange={changeTodolistTitleHandler}/>
+            <IconButton onClick={removeTodolistHahdler}>
                 <Delete/>
             </IconButton>
         </h3>
         <AddItemForm addItem={addTaskHandler}/>
         <div>
             {
-                tasksForTodolist.map(t => <Task
-                    task={t}
-                    changeTaskStatus={changeTaskStatus}
-                    changeTaskTitle={changeTaskTitle}
-                    removeTask={removeTask}
-                    todolistId={id}
-                    key={t.id}
-                />)
+                tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={id}
+                                          removeTask={removeTask}
+                                          changeTaskTitle={changeTaskTitle}
+                                          changeTaskStatus={changeTaskStatus}
+                    />)
             }
         </div>
         <div style={{paddingTop: '10px'}}>
