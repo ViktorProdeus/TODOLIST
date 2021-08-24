@@ -38,7 +38,6 @@ export function EditableSpan(props: EditableSpanType) {
         <TextField
             label={props.title}
             id="outlined-size-small"
-            defaultValue="Small"
             variant="standard"
             size="small"
             onBlur={activateViewMode}

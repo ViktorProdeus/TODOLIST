@@ -6,10 +6,10 @@ import {
     todoListsReducer
 } from './todolists-reducer';
 import {v1} from 'uuid';
-import {FilterValuesType, TodoListType} from '../App';
+import {FilterValuesType, TodoListType} from '../AppWithRedux';
 
-let todolistId1 : string;
-let todolistId2 : string;
+let todolistId1: string;
+let todolistId2: string;
 
 let startState: TodoListType[];
 
