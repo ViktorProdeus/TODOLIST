@@ -1,70 +1,78 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import './App.css';
 import {Counter} from "./components/Counter/Counter";
 import {Settings} from "./components/Settings/Settings";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./redux/store";
+import {
+    changeMax,
+    changeStart,
+    changeStatusIncBtn, changeStatusResetBtn,
+    changeStatusSetBtn,
+    changeValue,
+    initialStateType
+} from "./redux/counter-reducer";
 
 const App = () => {
-    const [start, setStart] = useState<number>(0);
-    const [max, setMax] = useState<number>(5);
-    let [value, setValue] = useState<number>(start);
+    const dispatch = useDispatch();
+    const counter = useSelector<AppStateType, initialStateType>(state => state.counterReducer)
 
     const disable = true;
-    const [disableSet, setDisableSet] = useState<boolean>(disable);
-    const [disableInc, setDisableInc] = useState<boolean>(!disable);
-    const [disableReset, setDisableReset] = useState<boolean>(!disable);
 
-    const isIncorrectValues = (max <= start || max < 0 || start < 0);
-    const isIncorrectStartValue = (max <= start || start < 0);
-    const isIncorrectMaxValue = (max <= start || max < 0);
-    const isIncBtnDisable = value === max ? disable : disableInc;
-    const isResetBtnDisable = value === start ? disable : disableReset;
-    const isSetBtnDisable = isIncorrectValues ? disable : disableSet;
-    const isSettingBlockActive = disableSet === !disable && disableInc === disable && disableReset === disable;
+    const isIncorrectValues = (counter.max <= counter.start || counter.max < 0 || counter.start < 0);
+    const isIncorrectStartValue = (counter.max <= counter.start || counter.start < 0);
+    const isIncorrectMaxValue = (counter.max <= counter.start || counter.max < 0);
+    const isIncBtnDisable = counter.value === counter.max ? disable : counter.incBtnStatus;
+    const isResetBtnDisable = counter.value === counter.start ? disable : counter.resetBtnStatus;
+    const isSetBtnDisable = isIncorrectValues ? disable : counter.setBtnStatus;
+    const isSettingBlockActive = counter.setBtnStatus === !disable && counter.incBtnStatus === disable && counter.resetBtnStatus === disable;
 
 
     const getItemFromLocalStorage = (name: string, fn: (value: number) => void) => {
         let valueAsString = localStorage.getItem(name);
         if (valueAsString) {
             let newValue = JSON.parse(valueAsString);
-            fn(newValue);
+           
+            dispatch(fn(newValue));
         }
     };
 
 
     useEffect(() => {
-        getItemFromLocalStorage('startValue', setStart);
-        getItemFromLocalStorage('maxValue', setMax);
-        getItemFromLocalStorage('counterValue', setValue);
+        getItemFromLocalStorage('startValue', changeStart);
+        getItemFromLocalStorage('maxValue', changeMax);
+        getItemFromLocalStorage('counterValue', changeValue);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
     useEffect(() => {
-        localStorage.setItem('maxValue', JSON.stringify(max));
-        localStorage.setItem('startValue', JSON.stringify(start));
-        localStorage.setItem('counterValue', JSON.stringify(start));
-    }, [max, start, value]);
+        localStorage.setItem('maxValue', JSON.stringify(counter.max));
+        localStorage.setItem('startValue', JSON.stringify(counter.start));
+        localStorage.setItem('counterValue', JSON.stringify(counter.start));
+    }, [counter.max, counter.start, counter.value]);
 
 
     const increaseValue = () => {
-        setValue(value + 1)
+        dispatch(changeValue(counter.value + 1))
     };
 
     const resetValue = () => {
-        setValue(start)
+        dispatch(changeValue(counter.start))
     };
 
     const changeMinValue = (value: number) => {
-        setStart(value)
+        dispatch(changeStart(value))
     };
 
     const changeMaxValue = (value: number) => {
-        setMax(value)
+        dispatch(changeMax(value))
     };
 
     const disabledBlock = (flag: boolean) => {
-        setDisableSet(flag);
-        setDisableInc(!flag);
-        setDisableReset(!flag);
+        dispatch(changeStatusSetBtn(flag))
+        dispatch(changeStatusIncBtn(!flag))
+        dispatch(changeStatusResetBtn(!flag))
     }
 
     const disableSettingBlock = () => {
@@ -75,13 +83,13 @@ const App = () => {
         disabledBlock(!disable)
     };
 
-    const onChangeInputValue = () => {
+    const changeStatusButtons = () => {
         disableCounterBlock();
     };
 
     const onClickSetBtn = () => {
-        changeMinValue(start);
-        changeMaxValue(max);
+        changeMinValue(counter.start);
+        changeMaxValue(counter.max);
         resetValue();
         disableSettingBlock();
     };
@@ -89,22 +97,22 @@ const App = () => {
     return (
         <div className="AppWrapper">
             <Settings
-                max={max}
-                start={start}
+                max={counter.max}
+                start={counter.start}
                 changeMinValue={changeMinValue}
                 changeMaxValue={changeMaxValue}
-                disableSet={disableSet}
+                disableSet={counter.setBtnStatus}
                 onClickSetBtn={onClickSetBtn}
-                onChangeInputValue={onChangeInputValue}
+                changeStatusButtons={changeStatusButtons}
                 isSetBtnDisable={isSetBtnDisable}
                 isIncorrectStartValue={isIncorrectStartValue}
                 isIncorrectMaxValue={isIncorrectMaxValue}
             />
 
             <Counter
-                value={value}
-                max={max}
-                start={start}
+                value={counter.value}
+                max={counter.max}
+                start={counter.start}
                 increaseValue={increaseValue}
                 resetValue={resetValue}
                 isIncBtnDisable={isIncBtnDisable}

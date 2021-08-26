@@ -13,7 +13,7 @@ type PropsType = {
     disableSet: boolean
 
     onClickSetBtn: () => void
-    onChangeInputValue: () => void
+    changeStatusButtons: () => void
 }
 
 export const Settings = (props: PropsType) => {
@@ -27,7 +27,7 @@ export const Settings = (props: PropsType) => {
                         name="max value"
                         inputValue={props.max}
                         changeValue={props.changeMaxValue}
-                        onChangeInputValue={props.onChangeInputValue}
+                        changeStatusButtons={props.changeStatusButtons}
                     />
                     <br/>
                     <InputComponent
@@ -35,7 +35,7 @@ export const Settings = (props: PropsType) => {
                         name="start value"
                         inputValue={props.start}
                         changeValue={props.changeMinValue}
-                        onChangeInputValue={props.onChangeInputValue}
+                        changeStatusButtons={props.changeStatusButtons}
                     />
                 </div>
 
@@ -48,5 +48,3 @@ export const Settings = (props: PropsType) => {
         </div>
     );
 };
-
-export default Settings;

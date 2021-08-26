@@ -4,7 +4,7 @@ type inputValueType = {
     name: string
     inputValue: number
     changeValue: (value: number) => void
-    onChangeInputValue: () => void
+    changeStatusButtons: () => void
     isIncorrectValue: boolean
 }
 
@@ -13,7 +13,7 @@ export const InputComponent = (props: inputValueType) => {
     const onChangeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.value) {
             props.changeValue(+e.currentTarget.value)
-            props.onChangeInputValue && props.onChangeInputValue();
+            props.changeStatusButtons();
         }
     }
 
