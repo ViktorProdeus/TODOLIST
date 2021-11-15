@@ -1,10 +1,10 @@
 import {FilterValuesType, TodoListType} from "../App";
 import {v1} from "uuid";
 
-export const REMOVE_TODOLIST = "REMOVE-TODOLIST";
-export const ADD_TODOLIST = "ADD-TODOLIST";
-const CHANGE_TODOLIST_TITLE = "CHANGE-TODOLIST-TITLE";
-const CHANGE_TODOLIST_FILTER = "CHANGE-TODOLIST-FILTER";
+export const REMOVE_TODOLIST = "todoLists/REMOVE-TODOLIST";
+export const ADD_TODOLIST = "todoLists/ADD-TODOLIST";
+const CHANGE_TODOLIST_TITLE = "todoLists/CHANGE-TODOLIST-TITLE";
+const CHANGE_TODOLIST_FILTER = "todoLists/CHANGE-TODOLIST-FILTER";
 
 export type RemoveTodoListAT = {
     type: typeof REMOVE_TODOLIST
@@ -45,7 +45,7 @@ export const todoListsReducer = (todoLists: TodoListType[], action: ActionsType)
                 filter: "all",
             };
 
-            return [...todoLists, newTodolist];
+            return [newTodolist, ...todoLists];
 
         case CHANGE_TODOLIST_TITLE:
             const todoListTitleToUpdate = todoLists
@@ -64,7 +64,7 @@ export const todoListsReducer = (todoLists: TodoListType[], action: ActionsType)
             return [...todoListFilterToUpdate];
 
         default:
-            return todoLists;
+            throw new Error("I don`t understand this type");
     }
 };
 

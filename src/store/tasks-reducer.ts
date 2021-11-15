@@ -2,10 +2,10 @@ import {TasksStateType} from "../App";
 import {v1} from "uuid";
 import {ADD_TODOLIST, AddTodolistAT, REMOVE_TODOLIST, RemoveTodoListAT} from "./todolists-reducer";
 
-const REMOVE_TASK = "REMOVE-TASK";
-const ADD_TASK = "ADD-TASK";
-const CHANGE_STATUS_TASK = "CHANGE-STATUS-TASK";
-const CHANGE_TITLE_TASK = "CHANGE-TITLE-TASK";
+const REMOVE_TASK = "tasks/REMOVE-TASK";
+const ADD_TASK = "tasks/ADD-TASK";
+const CHANGE_STATUS_TASK = "tasks/CHANGE-STATUS-TASK";
+const CHANGE_TITLE_TASK = "tasks/CHANGE-TITLE-TASK";
 
 export type RemoveTaskAT = {
     type: typeof REMOVE_TASK
